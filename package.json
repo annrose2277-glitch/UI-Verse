@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "description": "UI-Verse static site — quality gate tooling",
+  "bin": {
+    "uiverse": "./cli/src/index.js"
+  },
   "scripts": {
     "lint:js": "eslint '**/*.js' --ext .js",
     "lint:css": "stylelint '**/*.css'",
@@ -24,7 +27,11 @@
     "quality": "npm run lint:html && npm run lint:css && npm run lint:js && npm run link-check && npm run audit:a11y && npm run test:visual",
     "test:e2e:accessibility": "playwright test tests/visual/accessibility --project=chromium-desktop --reporter=list",
     "perf": "node scripts/perf-budgets.js",
-    "perf:ci": "node scripts/perf-budgets.js"
+    "perf:ci": "node scripts/perf-budgets.js",
+    "cli": "node cli/src/index.js",
+    "cli:add": "node cli/src/index.js add",
+    "cli:list": "node cli/src/index.js list",
+    "cli:init": "node cli/src/index.js init"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.0.0",
