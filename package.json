@@ -37,6 +37,7 @@
     "tokens:extract": "node scripts/token-extractor.js",
     "build": "vite build",
     "build:js": "vite build",
+    "build:csp": "node scripts/csp-hash-generator.js --update && vite build",
     "dev": "vite",
     "preview": "vite preview",
     "csp:hash": "node scripts/csp-hash-generator.js",
