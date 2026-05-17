@@ -25,7 +25,7 @@
     <span class="brand-text">UIverse</span>
   </div>
 
-      <nav class="sidebar-nav">
+          <nav class="sidebar-nav">
     <ul>
       <li class="active">
         <a href="index.html">
@@ -97,6 +97,12 @@
         <a href="color.html">
           <i class="fa-solid fa-palette"></i>
           <span>Colors</span>
+        </a>
+      </li>
+      <li>
+        <a href="charts.html">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Charts</span>
         </a>
       </li>
       <li>
@@ -249,13 +255,7 @@
           <span>Contact Us</span>
         </a>
       </li>
-          <li>
-        <a href="charts.html">
-          <i class="fa-solid fa-chart-pie"></i>
-          <span>Charts</span>
-        </a>
-      </li>
-</ul>
+    </ul>
   </nav>
 
  <div class="socials">
@@ -672,6 +672,7 @@
   document.querySelectorAll('.feature-card, .cat-card, .why-card').forEach(el => {
     observer.observe(el);
   });
+
 
   function handleSearch(e) {
     if (e.key === 'Enter') {
