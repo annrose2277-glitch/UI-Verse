@@ -528,6 +528,175 @@ body.dark-mode .demo-nav-split { background: #1e1e24; border-color: #2a2a30; }
 .dnav-white-btn:hover { opacity: 0.9; }
 
 /* ============================================================
+   ADDITIONAL NAVBAR COMPONENTS + PAGE POLISH
+   ============================================================ */
+.page-hero {
+  background:
+    radial-gradient(circle at top right, rgba(108,92,231,0.14), transparent 34%),
+    var(--card-bg);
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.05);
+}
+
+.filter-bar {
+  padding: 10px;
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(12px);
+}
+
+.component-card {
+  overflow: hidden;
+}
+
+.component-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.component-card {
+  position: relative;
+}
+
+.component-card:hover::before {
+  opacity: 1;
+}
+
+.demo-nav-floating,
+.demo-nav-mega,
+.demo-nav-notify,
+.demo-nav-store,
+.demo-nav-dock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: 999px;
+}
+
+.demo-nav-floating {
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(15,23,42,0.12);
+}
+
+.demo-nav-mega {
+  background: linear-gradient(135deg, #111827, #312e81);
+}
+
+.demo-nav-mega .dnav-brand,
+.demo-nav-mega .dnav-links a {
+  color: #fff;
+}
+
+.mega-chip,
+.cart-pill {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.mega-chip {
+  color: #fff;
+  background: rgba(255,255,255,0.16);
+}
+
+.demo-nav-notify {
+  background: #fff;
+  border: 1px solid #ececf2;
+}
+
+.notify-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notify-actions span:first-child {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f5f2ff;
+}
+
+.notify-actions b {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: #eb6835;
+  font-size: 10px;
+}
+
+.avatar-dot {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(135deg, #eb6835, #6c5ce7);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.demo-nav-store {
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #ececf2;
+}
+
+.store-search {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: #94a3b8;
+  background: #f8fafc;
+  font-size: 12px;
+}
+
+.cart-pill {
+  color: #fff;
+  background: #111827;
+}
+
+.demo-nav-dock {
+  justify-content: center;
+  gap: 12px;
+  width: fit-content;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(12px);
+}
+
+.demo-nav-dock a {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  text-decoration: none;
+  background: rgba(255,255,255,0.12);
+}
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 768px) {
@@ -542,6 +711,8 @@ body.dark-mode .demo-nav-split { background: #1e1e24; border-color: #2a2a30; }
   .filter-bar { flex-direction: column; align-items: stretch; }
   .filter-btn { text-align: center; }
   .dnav-links { display: none; }
+  .filter-bar { border-radius: 20px; }
+  .store-search { display: none; }
 }
 /* =========================================================
    MOBILE BOTTOM NAVBAR
