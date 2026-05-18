@@ -19,6 +19,40 @@
   <!-- Main Styles -->
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="calendar.css">
+  <link rel="stylesheet" href="command-palette.css">
+  <link rel="stylesheet" href="css/url-state.css">
+
+  <!-- UIverse Modular Scripts - Load in dependency order -->
+  <script src="js/registry.js"></script>
+
+  <!-- Core Modules -->
+  <script src="js/core/utils.js"></script>
+  <script src="js/core/security.js"></script>
+  <script src="js/core/components-registry.js"></script>
+  <script src="js/core/sanitize.js"></script>
+
+  <!-- Feature Modules -->
+  <script src="js/features/toast.js"></script>
+  <script src="js/features/popup.js"></script>
+  <script src="js/features/code-tools.js"></script>
+  <script src="js/features/sidebar.js"></script>
+  <script src="js/features/search.js"></script>
+  <script src="js/features/theme.js"></script>
+  <script src="js/features/scroll.js"></script>
+  <script src="js/features/alerts.js"></script>
+  <script src="js/features/sandbox.js"></script>
+  <script src="js/features/accessibility.js"></script>
+  <script src="js/features/command-palette.js"></script>
+  <script src="js/features/url-state.js"></script>
+  <script src="js/features/url-state-integration.js"></script>
+  <script src="js/features/profile-editor.js"></script>
+  <script src="js/features/component-gallery.js"></script>
+
+  <!-- Bootstrap (initializes all modules) -->
+  <script src="js/bootstrap.js"></script>
+
+  <!-- Backward Compatibility Layer -->
+  <script src="script.js"></script>
 </head>
 
 <body>
@@ -143,6 +177,8 @@
 
       <input
         type="text"
+        id="searchInput"
+        onkeydown="handleSearch(event)"
         aria-label="Search calendar components"
         placeholder="Search calendar components..." />
 
@@ -543,66 +579,40 @@
 
   </footer>
 
+  <!-- ================= COMMAND PALETTE ================= -->
+
+  <div id="commandPaletteOverlay" class="command-palette-overlay">
+    <div class="command-palette-container">
+      <div class="command-palette-input-wrapper">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          type="text"
+          id="commandPaletteInput"
+          class="command-palette-input"
+          placeholder="Search components... (Cmd+K)"
+          autocomplete="off" />
+      </div>
+      <ul id="commandPaletteResults" class="command-palette-results"></ul>
+      <div class="command-palette-footer">
+        <div class="command-palette-footer-item">
+          <span class="command-palette-footer-kbd">↑↓</span>
+          <span>Navigate</span>
+        </div>
+        <div class="command-palette-footer-item">
+          <span class="command-palette-footer-kbd">⏎</span>
+          <span>Select</span>
+        </div>
+        <div class="command-palette-footer-item">
+          <span class="command-palette-footer-kbd">Esc</span>
+          <span>Close</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= SCRIPT ================= -->
 
   <script>
-
-    // DARK MODE
-
-    const toggle =
-      document.getElementById('darkModeToggle');
-    if (toggle) {
-      const icon =
-        toggle.querySelector('i');
-
-      if (localStorage.getItem('theme') === 'dark') {
-
-        document.body.classList.add('dark-mode');
-
-        if (icon) {
-          icon.className =
-            'fa-solid fa-sun';
-        }
-
-      }
-
-      toggle.addEventListener('click', () => {
-
-        document.body.classList.toggle('dark-mode');
-
-        const isDark =
-          document.body.classList.contains('dark-mode');
-
-        if (icon) {
-          icon.className =
-            isDark ?
-            'fa-solid fa-sun' :
-            'fa-solid fa-moon';
-        }
-
-        localStorage.setItem(
-          'theme',
-          isDark ? 'dark' : 'light'
-        );
-
-      });
-    }
-
-    // SIDEBAR
-
-    function toggleSidebar() {
-
-      const sidebar =
-        document.getElementById('sidebar');
-
-      const backdrop =
-        document.getElementById('sidebarBackdrop');
-
-      sidebar.classList.toggle('open');
-
-      backdrop.classList.toggle('visible');
-
-    }
 
     // NAVBAR SCROLL EFFECT
 
