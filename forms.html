@@ -179,6 +179,9 @@
   </div>
 
 
+
+  
+  
   <div>
     <form class="scearch">
       <i class="fa-solid fa-magnifying-glass"></i>
@@ -186,7 +189,7 @@
     </form>
   </div>
 
-  
+
   <!-- Forms Grid -->
   <div class="forms-grid">
 
@@ -460,21 +463,6 @@
   });
 
 
-
-/*SCEARCH FILTER*/
-// FORM SEARCH (FIXED)
-const formSearchInput = document.getElementById("formSearch");
-formSearchInput.addEventListener("input", function (){
-  const filter = formSearchInput.value.toLowerCase();
-  const cards = document.querySelectorAll(".form-component-card");
-  cards.forEach(card =>{
-    const data = card.getAttribute("data-name");
-    if(data.includes(filter)){card.style.display = "";}
-    else{card.style.display = "none";}
-  });
-});
-
-
   /* Sidebar */
   function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('open');
@@ -514,6 +502,23 @@ formSearchInput.addEventListener("input", function (){
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
   }, { threshold: 0.08 });
   document.querySelectorAll('.form-component-card').forEach(el => observer.observe(el));
+
+  
+
+/*SCEARCH FILTER*/
+// FORM SEARCH (FIXED)
+const formSearchInput = document.getElementById("formSearch");
+formSearchInput.addEventListener("input", function (){
+  const filter = formSearchInput.value.toLowerCase();
+  const cards = document.querySelectorAll(".form-component-card");
+  cards.forEach(card =>{
+    const data = card.getAttribute("data-name");
+    if(data.includes(filter)){card.style.display = "";}
+    else{card.style.display = "none";}
+  });
+});
+
+
 </script>
 
 <!-- ================= COMMAND PALETTE ================= -->
