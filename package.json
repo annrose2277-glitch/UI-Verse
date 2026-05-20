@@ -73,6 +73,9 @@
         "components:version:bump": "node scripts/component-metadata.js"
         ,"state:test": "playwright test tests/state --reporter=list"
     },
+    "bench": "node bench/bench.js",
+    "bench:sizes": "node bench/bundle-sizes.js",
+    "bench:all": "npm run bench && npm run bench:sizes",
     "devDependencies": {
         "@axe-core/playwright": "^4.0.0",
         "@playwright/test": "^1.40.0",
