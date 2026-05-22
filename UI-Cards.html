@@ -1,74 +1,316 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UI-Cards</title>
-     <link rel="stylesheet" href="UI-Cards.css">
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Modern UI Cards</title>
+
+  <!-- Google Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="UI-Cards.css" />
 </head>
+
 <body>
-    
-<div class="container">
 
-    <div class="card card-one">
-      <img src="dev.jpg" alt="">
-      <div class="content">
-        <h2>Developer Hub</h2>
-        <p>Modern responsive card design using HTML and CSS.</p>
-        <button>Read More</button>
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar">
+
+    <div class="logo">
+      UI<span>Cards</span>
+    </div>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Components</a></li>
+        <li><a href="#">Templates</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+  </header>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <h1>
+        Modern Responsive <span>UI Card Components</span>
+      </h1>
+
+      <p>
+        Stylish and responsive card layouts built using pure HTML and CSS.
+        Perfect for portfolios, landing pages, and creative websites.
+      </p>
+
+      <div class="hero-buttons">
+        <button class="primary-btn">Get Started</button>
+        <button class="secondary-btn">Explore UI</button>
       </div>
+
     </div>
 
-    <div class="card card-two">
-      <img src="creative.jpg" alt="">
-      <div class="content">
-        <h2>Creative Space</h2>
-        <p>Clean layout with hover animation and shadow effect.</p>
-        <button>Explore</button>
+  </section>
+
+  <!-- ================= FILTER SECTION ================= -->
+  <section class="filter-section">
+
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Design</button>
+    <button class="filter-btn">Development</button>
+    <button class="filter-btn">Creative</button>
+    <button class="filter-btn">Technology</button>
+
+  </section>
+
+  <!-- ================= CARD SECTION ================= -->
+  <section class="cards-section">
+
+    <div class="container">
+
+      <!-- CARD 1 -->
+      <div class="card card-one">
+
+        <div class="badge">Popular</div>
+
+        <img src="dev.jpg" alt="Developer Hub" />
+
+        <div class="content">
+
+          <div class="card-top">
+            <span class="category">Development</span>
+            <span class="rating">⭐ 4.9</span>
+          </div>
+
+          <h2>Developer Hub</h2>
+
+          <p>
+            Modern responsive card design using HTML and CSS with
+            smooth animation effects.
+          </p>
+
+          <div class="card-footer">
+            <button>Read More</button>
+            <span class="price">Free</span>
+          </div>
+
+        </div>
+
       </div>
-    </div>
 
-    <div class="card card-three">
-      <img src="dgstudio.jpg" alt="">
-      <div class="content">
-        <h2>Digital Studio</h2>
-        <p>Easy to customize for portfolios or websites.</p>
-        <button>View</button>
+      <!-- CARD 2 -->
+      <div class="card card-two">
+
+        <div class="badge">Trending</div>
+
+        <img src="creative.jpg" alt="Creative Space" />
+
+        <div class="content">
+
+          <div class="card-top">
+            <span class="category">Creative</span>
+            <span class="rating">⭐ 4.8</span>
+          </div>
+
+          <h2>Creative Space</h2>
+
+          <p>
+            Clean layout with modern hover animations and elegant
+            visual styling.
+          </p>
+
+          <div class="card-footer">
+            <button>Explore</button>
+            <span class="price">$12</span>
+          </div>
+
+        </div>
+
       </div>
-    </div>
 
-    <div class="card card-four">
-      <img src="future.jpg" alt="">
-      <div class="content">
-        <h2>Future Design</h2>
-        <p>Simple and beginner-friendly modern UI component.</p>
-        <button>Details</button>
+      <!-- CARD 3 -->
+      <div class="card card-three">
+
+        <div class="badge">New</div>
+
+        <img src="dgstudio.jpg" alt="Digital Studio" />
+
+        <div class="content">
+
+          <div class="card-top">
+            <span class="category">Portfolio</span>
+            <span class="rating">⭐ 5.0</span>
+          </div>
+
+          <h2>Digital Studio</h2>
+
+          <p>
+            Elegant UI card perfect for agencies, portfolio websites,
+            and startups.
+          </p>
+
+          <div class="card-footer">
+            <button>View</button>
+            <span class="price">$18</span>
+          </div>
+
+        </div>
+
       </div>
+
+      <!-- CARD 4 -->
+      <div class="card card-four">
+
+        <div class="badge">Featured</div>
+
+        <img src="future.jpg" alt="Future Design" />
+
+        <div class="content">
+
+          <div class="card-top">
+            <span class="category">UI Design</span>
+            <span class="rating">⭐ 4.7</span>
+          </div>
+
+          <h2>Future Design</h2>
+
+          <p>
+            Simple and beginner-friendly UI component with a futuristic
+            design style.
+          </p>
+
+          <div class="card-footer">
+            <button>Details</button>
+            <span class="price">Free</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="card tech-world">
+
+        <div class="badge">Premium</div>
+
+        <img src="Tech World.jpg" alt="Tech World" />
+
+        <div class="content">
+
+          <div class="card-top">
+            <span class="category">Technology</span>
+            <span class="rating">⭐ 4.9</span>
+          </div>
+
+          <h2>Tech World</h2>
+
+          <p>
+            Explore futuristic technology designs with modern
+            responsive layouts.
+          </p>
+
+          <div class="card-footer">
+            <button>Discover</button>
+            <span class="price">$25</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="card code-craft">
+
+        <div class="badge">Editor's Pick</div>
+
+        <img src="code.jpg" alt="Code Craft" />
+
+        <div class="content">
+
+          <div class="card-top">
+            <span class="category">Coding</span>
+            <span class="rating">⭐ 5.0</span>
+          </div>
+
+          <h2>Code Craft</h2>
+
+          <p>
+            Stylish UI card designs built with clean HTML and CSS for
+            modern websites.
+          </p>
+
+          <div class="card-footer">
+            <button>View More</button>
+            <span class="price">$15</span>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="card tech-world">
-  <img src="Tech World.jpg" alt="">
-  <div class="content">
-    <h2>Tech World</h2>
-    <p>Explore modern technology designs with clean UI layouts.</p>
-    <button>Discover</button>
+  </section>
+
+  <!-- ================= FEATURES SECTION ================= -->
+  <section class="features">
+
+    <div class="feature-box">
+      <h3>⚡ Fast Performance</h3>
+      <p>Optimized responsive layouts for modern websites.</p>
     </div>
-  </div>
 
+    <div class="feature-box">
+      <h3>🎨 Modern Design</h3>
+      <p>Beautiful UI components with smooth interactions.</p>
+    </div>
 
+    <div class="feature-box">
+      <h3>📱 Fully Responsive</h3>
+      <p>Perfectly adaptable across mobile and desktop screens.</p>
+    </div>
 
- <div class="card code-craft">
-  <img src="code.jpg" alt="">
-  <div class="content">
-    <h2>Code Craft</h2>
-    <p>Simple yet elegant card designs built using HTML and CSS.</p>
-    <button>View More</button>
-  </div>
- </div>
+  </section>
 
-</div>
+  <!-- ================= NEWSLETTER ================= -->
+  <section class="newsletter">
 
+    <h2>Subscribe For UI Updates</h2>
 
+    <p>
+      Get latest UI card components and modern web design inspiration.
+    </p>
+
+    <div class="newsletter-box">
+      <input
+        type="email"
+        placeholder="Enter your email"
+      />
+
+      <button>Subscribe</button>
+    </div>
+
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+
+    <p>
+      © 2026 UI Cards. Designed with ❤️ using HTML & CSS.
+    </p>
+
+  </footer>
 
 </body>
 </html>
