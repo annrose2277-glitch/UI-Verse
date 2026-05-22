@@ -100,16 +100,22 @@ document.addEventListener('DOMContentLoaded', () => {
       wrapper.classList.remove('active');
     });
   });
-  
+
   const scrollBtn = document.getElementById("scrollTopBtn");
 
+  if (scrollBtn) {
+  scrollBtn.addEventListener("click", scrollToTop);
+}
+
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-      scrollBtn.style.display = "block";
-    } else {
-      scrollBtn.style.display = "none";
-    }
-  });
+  if (!scrollBtn) return;
+
+  if (window.scrollY > 300) {
+    scrollBtn.style.display = "block";
+  } else {
+    scrollBtn.style.display = "none";
+  }
+});
 });
 
 // ✅ Global scroll-to-top function (outside DOMContentLoaded)
