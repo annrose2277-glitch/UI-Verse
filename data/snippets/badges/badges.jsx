@@ -3,36 +3,132 @@ import React from 'react';
 export default function badges(){
   return (
     <>
-      <i className="fa-solid fa-bars menu-toggle" id="menuToggle"></i>
-          <aside className="sidebar">
-          <h2>UIverse</h2>
+      {/* ================= SIDEBAR ================= */}
+      <aside className="sidebar" id="sidebar">
+        <div className="sidebar-brand">
+          <span className="brand-icon">⬡</span>
+          <span className="brand-text">UIverse</span>
+        </div>
+      
+        <nav className="sidebar-nav">
           <ul>
-            <li><a href="profile.html"><i className="fa-regular fa-circle-user"></i><p>Profile</p></a></li>
-            <li><a href="index.html"><i className="fa-solid fa-house"></i><p>Home</p></a></li>
-            <li><a href="button.html"><i className="fa-solid fa-mobile-button"></i><p>Butttons</p></a></li>
-            <li><a href="navbar.html"><i className="fa-solid fa-bars"></i><p>Navbar</p></a></li>
-            <li><a href="contact.html"><i className="fa-regular fa-user"></i><p>Contact Us</p></a></li>
-            <li><a href="forms.html"><i className="fa-brands fa-wpforms"></i><p>Forms</p></a></li>
-            <li><a href="badges.html"><i className="fa-solid fa-award"></i><p>Badges</p></a></li>
-            <li><a href="about.html"><i className="fa-solid fa-mobile-button"></i><p>About</p></a></li>
-            <li><a href="settings.html"><i className="fa-solid fa-gear"></i><p>Settings</p></a></li>
+            <li>
+              <a href="index.html">
+                <i className="fa-solid fa-house"></i>
+                <span>Home</span>
+              </a>
+            </li>
+            <li>
+              <a href="button.html">
+                <i className="fa-solid fa-hand-pointer"></i>
+                <span>Buttons</span>
+              </a>
+            </li>
+            <li>
+              <a href="navbar.html">
+                <i className="fa-solid fa-bars"></i>
+                <span>Navbar</span>
+              </a>
+            </li>
+            <li>
+              <a href="cards.html">
+                <i className="fa-solid fa-table-cells-large"></i>
+                <span>Cards</span>
+              </a>
+            </li>
+            <li>
+              <a href="inputs.html">
+                <i className="fa-solid fa-keyboard"></i>
+                <span>Inputs</span>
+              </a>
+            </li>
+            <li>
+              <a href="contact.html">
+                <i className="fa-regular fa-user"></i>
+                <span>Contact Us</span>
+              </a>
+            </li>
+            <li>
+              <a href="forms.html">
+                <i className="fa-brands fa-wpforms"></i>
+                <span>Forms</span>
+              </a>
+            </li>
+            <li className="active">
+              <a href="badges.html">
+                <i className="fa-solid fa-award"></i>
+                <span>Badges</span>
+              </a>
+            </li>
+            <li>
+              <a href="loaders.html">
+                <i className="fa-solid fa-award"></i>
+                <span>Loaders</span>
+              </a>
+            </li>
+            <li>
+              <a href="about.html">
+                <i className="fa-solid fa-award"></i>
+                <span>About us</span>
+              </a>
+            </li>
           </ul>
-        </aside>
+        </nav>
+      
+        <div className="sidebar-footer">
+          <a href="#" title="GitHub"><i className="fab fa-github"></i></a>
+          <a href="#" title="LinkedIn"><i className="fab fa-linkedin"></i></a>
+          <a href="#" title="Twitter"><i className="fab fa-x-twitter"></i></a>
+        </div>
+      </aside>
+      
+      {/* ================= SIDEBAR BACKDROP ================= */}
+      <div className="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+      
+      {/* ================= NAVBAR ================= */}
+      <header className="navbar" id="navbar">
+        <button className="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+          <i className="fa-solid fa-bars"></i>
+        </button>
+      
+        <div className="logo">UIverse</div>
+      
+        <div className="search-bar">
+          <i className="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="searchInput" placeholder="Search components..." onkeydown="handleSearch(event)" />
+          <kbd className="search-kbd">⌘K</kbd>
+        </div>
+      
+        <div className="nav-right">
+          <button className="nav-btn outline-nav-btn">
+            <i className="fa-solid fa-plus"></i> Add Component
+          </button>
+          <button className="nav-btn primary-nav-btn">
+            <i className="fa-solid fa-bookmark"></i> My Collection
+          </button>
+          <button id="syncCollectionsBtn" className="nav-btn outline-nav-btn" title="Sync collections now">
+            <i className="fa-solid fa-sync"></i>
+          </button>
+          <button id="darkModeToggle" className="theme-toggle" title="Toggle Theme">
+            <i className="fa-solid fa-moon"></i>
+          </button>
+        </div>
+      </header>
       
       <section className="badges-page">
-        <h1>🏆 My Badges</h1>
+        <h1><i className="fa-solid fa-trophy"></i> My Badges</h1>
       
-        <h2>Earned Badges</h2>
+        <h2><i className="fa-solid fa-medal"></i> Earned Badges</h2>
         <div className="badge-container">
           
           <div className="badge">
-            <img src="badge1.jpg" alt="First PR badge icon" />
+            <picture><source type="image/avif" srcset="generated-images/badge1/badge1-320.avif 320w, generated-images/badge1/badge1-480.avif 480w, generated-images/badge1/badge1-768.avif 768w, generated-images/badge1/badge1-1024.avif 1024w, generated-images/badge1/badge1-1300.avif 1300w" sizes="(max-width: 768px) 96px, 160px"><source type="image/webp" srcset="generated-images/badge1/badge1-320.webp 320w, generated-images/badge1/badge1-480.webp 480w, generated-images/badge1/badge1-768.webp 768w, generated-images/badge1/badge1-1024.webp 1024w, generated-images/badge1/badge1-1300.webp 1300w" sizes="(max-width: 768px) 96px, 160px"><img src="generated-images/badge1/badge1-optimized-1300.jpg" alt="First PR badge icon" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async" width="1300" height="1390" /></picture>
             <h3>First PR</h3>
             <p>Completed your first pull request</p>
           </div>
       
           <div className="badge">
-             <img src="badge2.jpg" alt="Contributor badge icon" />
+             <picture><source type="image/avif" srcset="generated-images/badge2/badge2-212.avif 212w" sizes="(max-width: 768px) 96px, 160px"><source type="image/webp" srcset="generated-images/badge2/badge2-212.webp 212w" sizes="(max-width: 768px) 96px, 160px"><img src="generated-images/badge2/badge2-optimized-212.jpg" alt="Contributor badge icon" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async" width="212" height="238" /></picture>
             <h3>Contributor</h3>
             <p>Contributed to 10 PRs</p>
           </div>
@@ -44,7 +140,7 @@ export default function badges(){
         <div className="badge-container">
       
           <div className="badge progress">
-            <img src="time.png" alt="Top Contributor badge with progress indicator" />
+            <picture><source type="image/avif" srcset="generated-images/time/time-320.avif 320w, generated-images/time/time-480.avif 480w, generated-images/time/time-512.avif 512w" sizes="(max-width: 768px) 96px, 160px"><source type="image/webp" srcset="generated-images/time/time-320.webp 320w, generated-images/time/time-480.webp 480w, generated-images/time/time-512.webp 512w" sizes="(max-width: 768px) 96px, 160px"><img src="generated-images/time/time-optimized-512.png" alt="Top Contributor badge with progress indicator" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async" width="512" height="512" /></picture>
             <h3>Top Contributor</h3>
             <p>14/50 PRs completed</p>
             <progress value="14" max="50"></progress>
@@ -56,13 +152,14 @@ export default function badges(){
       <h2>✨ Earned Badges</h2>
       <div className="badge-container">
       
-        <div className="badge gold">
+        <div className="badge gold" data-collectible="badge-first-pr">
           <div className="badge-icon">
             <i className="fa-solid fa-code-pull-request"></i>
           </div>
           <h3>First PR</h3>
           <p>Completed your first pull request</p>
           <span className="badge-tag">Unlocked</span>
+          <button className="collect-btn" data-action="add" aria-label="Add to collection">👉 Save</button>
         </div>
       
         <div className="badge blue">
@@ -164,7 +261,7 @@ export default function badges(){
         <div className="badge-container">
       
           <div className="badge locked">
-            <img src="lock.jpg" alt="Elite Hacker locked badge icon" />
+            <picture><source type="image/avif" srcset="generated-images/lock/lock-320.avif 320w, generated-images/lock/lock-480.avif 480w, generated-images/lock/lock-612.avif 612w" sizes="(max-width: 768px) 96px, 160px"><source type="image/webp" srcset="generated-images/lock/lock-320.webp 320w, generated-images/lock/lock-480.webp 480w, generated-images/lock/lock-612.webp 612w" sizes="(max-width: 768px) 96px, 160px"><img src="generated-images/lock/lock-optimized-612.jpg" alt="Elite Hacker locked badge icon" sizes="(max-width: 768px) 96px, 160px" loading="lazy" decoding="async" width="612" height="612" /></picture>
             <h3>Elite Hacker</h3>
             <p>Complete 100 PRs</p>
           </div>
@@ -192,7 +289,7 @@ export default function badges(){
         <div className="footer-container">
       
           <div className="footer-col brand">
-            <h2 className="footer-logo">⬡ UIverse</h2>
+            <h2 className="footer-logo"><i className="fa-solid fa-cube"></i> UIverse</h2>
             <p>Build modern, reusable UI components with clean HTML, CSS, and JavaScript.</p>
             <div className="socials">
               <a href="#" title="GitHub"><i className="fab fa-github"></i></a>

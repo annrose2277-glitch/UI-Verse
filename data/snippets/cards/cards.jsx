@@ -866,7 +866,7 @@ export default function cards(){
                     <p>You have received a new message from Alex.</p>
                     <span className="notif-time">2 min ago</span>
                   </div>
-                  <button className="notif-close"><i className="fa-solid fa-xmark"></i></button>
+                  <button className="notif-close" aria-label="Dismiss notification" type="button"><i className="fa-solid fa-xmark"></i></button>
                 </div>
                 <div className="notif-card notif-green">
                   <div className="notif-icon notif-icon-green"><i className="fa-solid fa-check"></i></div>
@@ -875,7 +875,7 @@ export default function cards(){
                     <p>Your file has been successfully uploaded.</p>
                     <span className="notif-time">Just now</span>
                   </div>
-                  <button className="notif-close"><i className="fa-solid fa-xmark"></i></button>
+                  <button className="notif-close" aria-label="Dismiss notification" type="button"><i className="fa-solid fa-xmark"></i></button>
                 </div>
               </div>
             </div>
