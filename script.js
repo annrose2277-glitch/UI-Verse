@@ -93,6 +93,129 @@ function copyCode(id, btn) {
       if (btn) btn.innerText = "Error";
     });
 }
+/* =================================================================
+   COPY HTML / COPY CSS  —  UI-Verse
+   Add these two functions anywhere in script.js after the existing
+   copyCode() function. They share the same toast + feedback helpers.
+   ================================================================= */
+
+/**
+ * Decode HTML entities inside a <pre><code> block so we get clean
+ * source code rather than &lt;button&gt; etc.
+ */
+function decodeEntities(raw) {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = raw;
+  return txt.value;
+}
+
+/**
+ * Given the innerText of a code block, split it into { html, css }.
+ * Rules:
+ *  - HTML comes first (may span multiple lines).
+ *  - CSS starts at the first line that looks like a CSS rule
+ *    (begins with . # * @ a-z [ after optional whitespace AND
+ *     either contains { or is a pure selector line).
+ *  - If no CSS is found, css is an empty string.
+ */
+function splitHTMLandCSS(rawInnerText) {
+  const decoded = decodeEntities(rawInnerText);
+  const lines   = decoded.split("\n");
+
+  // CSS line detector: starts with a CSS-like selector token
+  const CSS_START = /^\s*([\.\#\*\@a-zA-Z\[:])/;
+  // Must also contain { to avoid matching stray words
+  const HAS_BRACE = /\{/;
+
+  let splitIndex = -1;
+  let seenHTML   = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    // Track that we have seen at least one non-empty HTML line
+    if (!seenHTML && line.trim().length > 0) {
+      seenHTML = true;
+    }
+
+    // Only look for CSS after we have seen HTML content
+    if (seenHTML && CSS_START.test(line) && HAS_BRACE.test(line)) {
+      splitIndex = i;
+      break;
+    }
+  }
+
+  if (splitIndex === -1) {
+    // No CSS found — entire block is HTML
+    return { html: decoded.trim(), css: "" };
+  }
+
+  const html = lines.slice(0, splitIndex).join("\n").trim();
+  const css  = lines.slice(splitIndex).join("\n").trim();
+  return { html, css };
+}
+
+/**
+ * Copy only the HTML portion of a component code block.
+ * Usage:  onclick="copyHTML('c1', this)"
+ */
+function copyHTML(id, btn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const { html } = splitHTMLandCSS(el.innerText);
+
+  if (!html) {
+    showToast("No HTML found in this component.");
+    return;
+  }
+
+  navigator.clipboard.writeText(html)
+    .then(() => {
+      showToast("HTML copied!");
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> HTML Copied!';
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.classList.remove("copied");
+        }, 2000);
+      }
+    })
+    .catch(() => showToast("Failed to copy HTML. Please try again."));
+}
+
+/**
+ * Copy only the CSS portion of a component code block.
+ * Usage:  onclick="copyCSS('c1', this)"
+ */
+function copyCSS(id, btn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const { css } = splitHTMLandCSS(el.innerText);
+
+  if (!css) {
+    showToast("No CSS found for this component.");
+    return;
+  }
+
+  navigator.clipboard.writeText(css)
+    .then(() => {
+      showToast("CSS copied!");
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> CSS Copied!';
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.classList.remove("copied");
+        }, 2000);
+      }
+    })
+    .catch(() => showToast("Failed to copy CSS. Please try again."));
+}
 
 
 /* ================= COPY COLOR ================= */
@@ -120,14 +243,290 @@ function toggleSidebar() {
   }
 }
 
+function getNormalizedRoutePath(href = window.location.href) {
+  const normalized = new URL(href, window.location.href);
+  return normalized.pathname.toLowerCase();
+}
+
+function getComponentsIndexSidebarHref() {
+  const homeAnchor = document.querySelector('.sidebar a[href$="index.html"]');
+  const homeHref = homeAnchor?.getAttribute('href') || 'index.html';
+
+  if (/index\.html$/i.test(homeHref)) {
+    return homeHref.replace(/index\.html$/i, 'components/index.html');
+  }
+
+  return 'components/index.html';
+}
+
+function ensureSidebarComponentsIndexLink() {
+  const sidebarList = document.querySelector(".sidebar ul");
+  if (!sidebarList) return;
+
+  const alreadyExists = Array.from(sidebarList.querySelectorAll("a")).some((anchor) => {
+    const href = (anchor.getAttribute("href") || "").toLowerCase();
+    return href.includes("components/index.html");
+  });
+
+  if (alreadyExists) return;
+
+  const li = document.createElement("li");
+  li.innerHTML = `
+    <a href="${getComponentsIndexSidebarHref()}">
+      <i class="fa-solid fa-table-cells-large"></i>
+      <span>Components Index</span>
+    </a>
+  `;
+  sidebarList.appendChild(li);
+}
+
+function getFavoritesSidebarHref() {
+  const homeAnchor = document.querySelector('.sidebar a[href$="index.html"]');
+  const homeHref = homeAnchor?.getAttribute('href') || 'index.html';
+
+  if (/index\.html$/i.test(homeHref)) {
+    return homeHref.replace(/index\.html$/i, 'favorites.html');
+  }
+
+  return 'favorites.html';
+}
+
+function getLegacyFavoritesCount() {
+  try {
+    const raw = localStorage.getItem('uiVerseFavorites');
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.length : 0;
+  } catch (error) {
+    return 0;
+  }
+}
+
+function syncLegacyFavoritesCountBadge() {
+  const badge = document.querySelector('.favorites-count-badge');
+  if (!badge) return;
+  badge.textContent = String(getLegacyFavoritesCount());
+}
+
+function ensureSidebarFavoritesLink() {
+  const sidebarList = document.querySelector('.sidebar ul');
+  if (!sidebarList) return;
+
+  const alreadyExists = Array.from(sidebarList.querySelectorAll('a')).some((anchor) => {
+    const href = (anchor.getAttribute('href') || '').toLowerCase();
+    return href.includes('favorites.html');
+  });
+
+  if (alreadyExists) {
+    syncLegacyFavoritesCountBadge();
+    return;
+  }
+
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <a href="${getFavoritesSidebarHref()}">
+      <i class="fa-solid fa-star"></i>
+      <span>Favorites</span>
+      <span class="favorites-count-badge" style="margin-left:auto;font-size:11px;opacity:0.9;">0</span>
+    </a>
+  `;
+  sidebarList.appendChild(li);
+  syncLegacyFavoritesCountBadge();
+}
+
+function initLegacyFavoritesCountSync() {
+  document.addEventListener('uiverse:favorites:changed', syncLegacyFavoritesCountBadge);
+  window.addEventListener('storage', syncLegacyFavoritesCountBadge);
+}
+
+function initLegacyCardFavorites() {
+  if (window.Favorites && typeof window.Favorites.init === 'function') return;
+
+  const cards = Array.from(document.querySelectorAll('.component-card'));
+  if (cards.length === 0) return;
+
+  const normalizeId = (value) => String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  const readFavorites = () => {
+    try {
+      const raw = localStorage.getItem('uiVerseFavorites');
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+      return [];
+    }
+  };
+
+  const writeFavorites = (items) => {
+    localStorage.setItem('uiVerseFavorites', JSON.stringify(items));
+    document.dispatchEvent(new CustomEvent('uiverse:favorites:changed', { detail: { count: items.length } }));
+  };
+
+  const isFavorite = (id) => readFavorites().some((item) => normalizeId(item.id) === normalizeId(id));
+
+  const updateButton = (button, active) => {
+    button.classList.toggle('is-favorited', Boolean(active));
+    button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    button.innerHTML = active
+      ? '<i class="fa-solid fa-star"></i>'
+      : '<i class="fa-regular fa-star"></i>';
+  };
+
+  cards.forEach((card, index) => {
+    const title = card.querySelector('.card-label, h3, h2, h4')?.textContent?.trim() || card.dataset.name || `Component ${index + 1}`;
+    const page = (new URL(window.location.href).pathname || '').replace(/^\/+/, '').toLowerCase() || 'index.html';
+    const id = normalizeId(card.dataset.componentId || `${page} ${title}`);
+    card.dataset.componentId = id;
+
+    const actions = card.querySelector('.actions') || (() => {
+      const node = document.createElement('div');
+      node.className = 'actions';
+      card.appendChild(node);
+      return node;
+    })();
+
+    let button = card.querySelector('.favorite-btn');
+    if (!button) {
+      button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'action-btn favorite-btn icon-only';
+      button.setAttribute('aria-label', 'Toggle favorite bookmark');
+      actions.insertBefore(button, actions.firstChild || null);
+    }
+
+    updateButton(button, isFavorite(id));
+    button.addEventListener('click', () => {
+      const favorites = readFavorites();
+      const exists = favorites.some((item) => normalizeId(item.id) === id);
+      const next = exists
+        ? favorites.filter((item) => normalizeId(item.id) !== id)
+        : [{ id, title, page, category: card.dataset.cat || 'component', tags: [], savedAt: new Date().toISOString() }, ...favorites];
+
+      writeFavorites(next);
+      updateButton(button, !exists);
+      syncLegacyFavoritesCountBadge();
+    });
+  });
+}
+
+function initDevicePreviewFeature() {
+  const hasCards = document.querySelector('.component-card');
+  if (!hasCards) return;
+
+  const start = () => {
+    if (window.DevicePreview && typeof window.DevicePreview.init === 'function') {
+      window.DevicePreview.init();
+    }
+  };
+
+  if (window.DevicePreview && typeof window.DevicePreview.init === 'function') {
+    start();
+    return;
+  }
+
+  const existingScript = document.querySelector('script[src$="js/features/device-preview.js"]');
+  if (existingScript) {
+    existingScript.addEventListener('load', start, { once: true });
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.src = 'js/features/device-preview.js';
+  script.onload = start;
+  document.body.appendChild(script);
+}
+
+function initKeyboardShortcutsFeature() {
+  const start = () => {
+    if (window.KeyboardShortcuts && typeof window.KeyboardShortcuts.init === 'function') {
+      window.KeyboardShortcuts.init();
+    }
+  };
+
+  if (window.KeyboardShortcuts && typeof window.KeyboardShortcuts.init === 'function') {
+    start();
+    return;
+  }
+
+  const existingScript = document.querySelector('script[src$="js/features/keyboard-shortcuts.js"]');
+  if (existingScript) {
+    existingScript.addEventListener('load', start, { once: true });
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.src = 'js/features/keyboard-shortcuts.js';
+  script.onload = start;
+  document.body.appendChild(script);
+}
+
+function initDownloadFeature() {
+  const hasCards = document.querySelector('.component-card');
+  const hasActions = document.querySelector('.actions');
+  if (!hasCards && !hasActions) return;
+
+  const start = () => {
+    if (window.Download && typeof window.Download.init === 'function') {
+      window.Download.init();
+    }
+  };
+
+  if (window.Download && typeof window.Download.init === 'function') {
+    start();
+    return;
+  }
+
+  const existingScript = document.querySelector('script[src$="js/features/download.js"]');
+  if (existingScript) {
+    existingScript.addEventListener('load', start, { once: true });
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.src = 'js/features/download.js';
+  script.onload = start;
+  document.body.appendChild(script);
+}
+
+function initRecentComponentsTracker() {
+  const hasCards = document.querySelector('.component-card');
+  if (!hasCards) return;
+
+  const start = () => {
+    if (window.Recent && typeof window.Recent.init === 'function') {
+      window.Recent.init();
+    }
+  };
+
+  if (window.Recent && typeof window.Recent.init === 'function') {
+    start();
+    return;
+  }
+
+  const existingScript = document.querySelector('script[src$="js/features/recent.js"]');
+  if (existingScript) {
+    existingScript.addEventListener('load', start, { once: true });
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.src = 'js/features/recent.js';
+  script.onload = start;
+  document.body.appendChild(script);
+}
+
 function updateSidebarActiveLink() {
-  const currentPage = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();
+  const currentRoute = getNormalizedRoutePath();
 
   document.querySelectorAll(".sidebar ul li").forEach((li) => {
     const anchor = li.querySelector("a");
     if (!anchor) return;
 
-    if (anchor.getAttribute("href").toLowerCase() === currentPage) {
+    const anchorRoute = getNormalizedRoutePath(anchor.getAttribute("href") || "index.html");
+
+    if (anchorRoute === currentRoute) {
       li.classList.add("active");
     } else {
       li.classList.remove("active");
@@ -149,16 +548,18 @@ function initSidebarLinkClose() {
         document.querySelector(".sidebar-backdrop")?.classList.remove("active");
       }
     });
+  });
 }
 
 function toggleMenu() {
-  document.querySelector(".sidebar").classList.toggle("active");
-}
-  });
+  document.querySelector(".sidebar")?.classList.toggle("active");
 }
 
 function initSidebar() {
   restoreSidebarState();
+  ensureSidebarComponentsIndexLink();
+  ensureSidebarFavoritesLink();
+  initLegacyFavoritesCountSync();
   updateSidebarActiveLink();
   initSidebarLinkClose();
 }
@@ -166,7 +567,7 @@ function initSidebar() {
 
 /* ================= LIVE IFRAME SANDBOX ================= */
 function initLiveSandboxes() {
-  const componentCards = document.querySelectorAll(".component-card");
+  const componentCards = document.querySelectorAll(".component-card:not(.no-sandbox)");
 
   componentCards.forEach((card, index) => {
     const h3 = card.querySelector("h3");
@@ -307,6 +708,14 @@ function handleSearch(event) {
     footer:  "footer.html",
     color:   "color.html",
     colors:  "color.html",
+    pricing: "pricing.html",
+    subscription: "subscription.html",
+    subscriptions: "subscription.html",
+    billing: "subscription.html",
+    auth: "auth.html",
+    login: "auth.html",
+    signup: "auth.html",
+    authentication: "auth.html",
   };
 
   for (const key in routes) {
@@ -362,8 +771,23 @@ function initScrollTop() {
   const btn = document.getElementById("scrollTopBtn");
   if (!btn) return;
 
+  let lastScrollY = 0;
+  let ticking = false;
+
+  const updateButton = () => {
+    const shouldShow = window.scrollY > 300;
+    btn.style.display = shouldShow ? "block" : "none";
+    btn.style.opacity = shouldShow ? "1" : "0";
+    btn.style.transform = shouldShow ? "translateY(0)" : "translateY(10px)";
+    ticking = false;
+  };
+
   window.addEventListener("scroll", () => {
-    btn.classList.toggle("visible", window.scrollY > 400);
+    lastScrollY = window.scrollY;
+    if (!ticking) {
+      requestAnimationFrame(updateButton);
+      ticking = true;
+    }
   });
 
   btn.addEventListener("click", () => {
@@ -403,9 +827,123 @@ function subscribe(e) {
 /* ================= INIT (DOMContentLoaded) ================= */
 window.addEventListener("DOMContentLoaded", () => {
   initSidebar();
+  initLegacyCardFavorites();
+  initRecentComponentsTracker();
   initLiveSandboxes();
+  initDevicePreviewFeature();
+  initKeyboardShortcutsFeature();
+  initDownloadFeature();
   initDarkMode();
   initScrollTop();
   initProgressBar();
   initSearchFilter();
 });
+
+// DARK MODE
+  const toggle = document.getElementById('darkModeToggle');
+  const icon = toggle.querySelector('i');
+
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    icon.className = 'fa-solid fa-sun';
+  }
+
+  toggle.addEventListener('click', () => {
+
+    document.body.classList.toggle('dark-mode');
+
+    const isDark = document.body.classList.contains('dark-mode');
+
+    icon.className = isDark
+      ? 'fa-solid fa-sun'
+      : 'fa-solid fa-moon';
+
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+  });
+
+
+  // SIDEBAR
+  function toggleSidebar() {
+
+    document.getElementById('sidebar').classList.toggle('open');
+
+    document.getElementById('sidebarBackdrop')
+      .classList.toggle('visible');
+
+  }
+
+
+  // SCROLL TOP
+  function scrollToTop() {
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+  }
+  // SHOW BUTTON
+  window.addEventListener('scroll', () => {
+
+    document.getElementById('scrollTopBtn')
+      .classList.toggle('visible', window.scrollY > 400);
+
+    document.getElementById('navbar')
+      .classList.toggle('scrolled', window.scrollY > 40);
+
+  });
+
+  // TOGGLE CODE
+  function toggleCode(id, btn) {
+
+    const block = document.getElementById(id);
+
+    const isOpen = block.classList.toggle('open');
+
+    btn.innerHTML = isOpen
+      ? '<i class="fa-solid fa-eye-slash"></i> Hide Code'
+      : '<i class="fa-solid fa-code"></i> View Code';
+
+  }
+
+  // COPY CODE
+  function copyCode(id, btn) {
+
+    navigator.clipboard.writeText(
+      document.getElementById(id).innerText
+    ).then(() => {
+
+      btn.innerHTML =
+        '<i class="fa-solid fa-check"></i> Copied!';
+
+      btn.classList.add('copied');
+
+      setTimeout(() => {
+
+        btn.innerHTML =
+          '<i class="fa-solid fa-copy"></i> Copy';
+
+        btn.classList.remove('copied');
+
+      }, 2000);
+
+    });
+
+  }
+
+  // SCROLL ANIMATION
+  const observer = new IntersectionObserver(entries => {
+
+    entries.forEach(e => {
+
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+      }
+
+    });
+
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.form-component-card')
+    .forEach(el => observer.observe(el));
