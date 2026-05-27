@@ -1,68 +1,17 @@
-<script defer>
-
-  /* =========================================
-     TAB SWITCH FUNCTION
-  ========================================= */
-
-  function switchTab(
-    container,
-    clickedItem
-  ) {
-
-    const items =
-      container.querySelectorAll(
-        '.tab-item-js'
-      );
-
-    items.forEach(item => {
-
-      item.classList.remove(
-        'active'
-      );
-
-      item.setAttribute(
-        'aria-selected',
-        'false'
-      );
-
-    });
-
-    clickedItem.classList.add(
-      'active'
-    );
-
-    clickedItem.setAttribute(
-      'aria-selected',
-      'true'
-    );
-
-  }
-
-  /* =========================================
-     SEGMENTED TAB SWITCH
-  ========================================= */
-
-  function switchSegment(
-    container,
-    clickedItem,
-    index
-  ) {
-
-    switchTab(
-      container,
-      clickedItem
-    );
-
-    const indicator =
-      container.querySelector(
-        '.tab-seg-indicator'
-      );
-
-    if (indicator) {
-
-      indicator.style.transform =
-        `translateX(${index * 100}%)`;
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Tab Navigation Components</title>
+  <link rel="stylesheet" href="tabs-components.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script defer>
+    function switchTab(container, clickedItem) {
+      const items = container.querySelectorAll('.tab-item-js');
+      items.forEach(i => i.classList.remove('active'));
+      clickedItem.classList.add('active');
     }
 
   }
@@ -129,185 +78,19 @@
         button.innerText =
           'Opening...';
 
-        button.disabled = true;
-
-        setTimeout(() => {
-
-          button.innerText =
-            original;
-
-          button.disabled = false;
-
-        }, 1200);
-
-      }
-    );
-
-  });
-
-  /* =========================================
-     ACCESSIBILITY ATTRIBUTES
-  ========================================= */
-
-  const tabContainers =
-    document.querySelectorAll(
-      '.tab-horizontal, .tab-pills, .tab-vertical, .tab-segmented, .tab-icon'
-    );
-
-  tabContainers.forEach(container => {
-
-    container.setAttribute(
-      'role',
-      'tablist'
-    );
-
-    const tabs =
-      container.querySelectorAll(
-        '.tab-item-js'
-      );
-
-    tabs.forEach(tab => {
-
-      tab.setAttribute(
-        'role',
-        'tab'
-      );
-
-      tab.setAttribute(
-        'tabindex',
-        '0'
-      );
-
-      if (
-        tab.classList.contains(
-          'active'
-        )
-      ) {
-
-        tab.setAttribute(
-          'aria-selected',
-          'true'
-        );
-
-      } else {
-
-        tab.setAttribute(
-          'aria-selected',
-          'false'
-        );
-
-      }
-
-    });
-
-  });
-
-  /* =========================================
-     KEYBOARD NAVIGATION
-  ========================================= */
-
-  document.querySelectorAll(
-    '.tab-item-js'
-  ).forEach((tab, index, tabs) => {
-
-    tab.addEventListener(
-      'keydown',
-      (e) => {
-
-        if (
-          e.key === 'ArrowRight'
-        ) {
-
-          e.preventDefault();
-
-          const next =
-            tabs[
-              (index + 1)
-              % tabs.length
-            ];
-
-          next.focus();
-          next.click();
-
-        }
-
-        if (
-          e.key === 'ArrowLeft'
-        ) {
-
-          e.preventDefault();
-
-          const prev =
-            tabs[
-              (index - 1 + tabs.length)
-              % tabs.length
-            ];
-
-          prev.focus();
-          prev.click();
-
-        }
-
-      }
-    );
-
-  });
-
-  /* =========================================
-     SUBSCRIBE FORM
-  ========================================= */
-
-  const subscribeForm =
-    document.querySelector(
-      '.subscribe-form'
-    );
-
-  if (subscribeForm) {
-
-    subscribeForm.addEventListener(
-      'submit',
-      (e) => {
-
-        e.preventDefault();
-
-        const button =
-          subscribeForm.querySelector(
-            'button'
-          );
-
-        const input =
-          subscribeForm.querySelector(
-            'input'
-          );
-
-        const original =
-          button.innerText;
-
-        if (
-          input.value.trim() !== ''
-        ) {
-
-          button.innerText =
-            'Subscribed ✓';
-
-          button.disabled = true;
-
-          input.value = '';
-
-          setTimeout(() => {
-
-            button.innerText =
-              original;
-
-            button.disabled = false;
-
-          }, 2000);
-
-        }
-
-      }
-    );
-
-  }
-
-</script>
+      <div class="footer-col subscribe-col">
+        <h4>STAY UPDATED</h4>
+        <p>Get notified when new components drop.</p>
+        <form class="subscribe-form" onsubmit="event.preventDefault()">
+          <input type="email" placeholder="your@email.com" aria-label="Email address" required>
+          <button type="submit" class="btn-subscribe">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 UI-Verse. Made with <span class="heart">♥</span> for developers worldwide.
+    </div>
+  </footer>
+    <script src="dist/shared.js"></script>
+</body>
+</html>

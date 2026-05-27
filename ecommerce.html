@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>E-commerce Components — UIverse</title>
@@ -13,24 +14,7 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="ecommerce.css">
-  <link rel="stylesheet" href="shared-sidebar.css">
-  <style>
-    /* Responsive e-commerce grid column wrapping and card alignment overrides */
-    @media (max-width: 480px) {
-      .ecom-grid {
-        grid-template-columns: 1fr !important;
-        gap: 16px !important;
-      }
-      .ecom-card {
-        padding: 16px !important;
-      }
-      .product-card, .cart-ui, .tracking-card, .wishlist-card, .gallery-ui {
-        width: 100% !important;
-        max-width: 100% !important;
-      }
-    }
-  </style>
-</head>
+  </head>
 <body>
 
 <!-- ================= SIDEBAR ================= -->
@@ -1459,6 +1443,7 @@
   });
 </script>
 
+    <script src="dist/shared.js"></script>
 </body>
 </html>
 

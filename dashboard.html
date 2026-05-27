@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8" />
 
   <meta
@@ -59,35 +59,7 @@
     href="dashboard.css"
   >
 
-  <link rel="stylesheet" href="shared-sidebar.css">
-  <style>
-    /* Fix mobile sidebar toggle animations and overlay states */
-    @media (max-width: 992px) {
-      .sidebar {
-        display: flex !important;
-        transform: translateX(-100%);
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      }
-      .sidebar.active {
-        transform: translateX(0) !important;
-      }
-      .sidebar-overlay {
-        display: block;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        z-index: 1040;
-      }
-      .sidebar-overlay.active {
-        opacity: 1;
-        pointer-events: auto;
-      }
-    }
-  </style>
-</head>
+  </head>
 
 <body>
 
@@ -2216,6 +2188,7 @@ SCRIPT
 
 </script>
 
+    <script src="dist/shared.js"></script>
 </body>
 </html>
 
