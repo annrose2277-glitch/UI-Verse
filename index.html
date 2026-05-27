@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="dist/shared.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UIverse — UI Component Library</title>
@@ -15,10 +16,7 @@
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="home.css">
-  <link rel="stylesheet" href="command-palette.css">
-</head>
+  </head>
 
 <body>
 
@@ -777,11 +775,8 @@
   </div>
 </footer>
 
-<script src="js/core/utils.js"></script>
 <script src="js/core/component-discovery.js"></script>
 <script src="js/core/component-index.js"></script>
-<script src="js/features/search.js"></script>
-<script src="script.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     if (window.Search && typeof Search.init === 'function') {
@@ -860,5 +855,6 @@
     }
   }
 </script>
+  <script src="dist/shared.js"></script>
 </body>
 </html>
