@@ -36,6 +36,8 @@
         "security:assets": "node scripts/security-asset-policy.js",
         "security:assets:verify": "node scripts/security-asset-policy.js --check",
         "audit:a11y": "node scripts/a11y-remediation.js",
+        "a11y:checklist": "node scripts/a11y-checklist.js",
+        "a11y:checklist:check": "node scripts/a11y-checklist.js --check",
         "audit:a11y:apply": "node scripts/a11y-remediation.js --apply",
         "a11y:remediate": "node scripts/a11y-remediation.js",
         "a11y:remediate:apply": "node scripts/a11y-remediation.js --apply",
