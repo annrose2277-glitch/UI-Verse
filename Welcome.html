@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
 
   <!-- Improved CSP -->
-  <meta
-    http-equiv="Content-Security-Policy"
-    content="
+  <meta http-equiv="Content-Security-Policy" content="
       default-src 'self';
       base-uri 'self';
       frame-ancestors 'none';
@@ -16,21 +15,16 @@
       font-src 'self' https: data:;
       style-src 'self' 'unsafe-inline' https:;
       script-src 'self' 'unsafe-inline' https:;
-    "
-  />
+    " />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Welcome • UI-Verse</title>
 
   <!-- Font Awesome -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
     integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="css/main.css" />
@@ -110,16 +104,22 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      padding-top: 100px;
     }
 
     /* Navbar */
     .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--bg);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 60px;
-      flex-wrap: wrap;
-      gap: 20px;
+      padding: 20px 8%;
+      box-shadow: var(--shadow);
+      z-index: 999;
     }
 
     .logo {
@@ -138,6 +138,22 @@
     .nav-links a {
       font-weight: 500;
       transition: 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
     }
 
     .nav-links a:hover {
@@ -163,7 +179,9 @@
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       align-items: center;
       gap: 60px;
-      padding: 40px 0;
+      background: linear-gradient(135deg, #f9fafb 0%, #eef2ff 100%);
+      border-radius: 20px;
+      padding: 60px;
     }
 
     .hero-text h1 {
@@ -177,6 +195,19 @@
       max-width: 550px;
       margin-bottom: 30px;
       font-size: 1.05rem;
+    }
+
+    .card,
+    .small-card {
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover,
+    .small-card:hover {
+      transform: translateY(-6px);
     }
 
     .buttons {
@@ -195,7 +226,10 @@
 
     .primary-btn {
       background: var(--primary);
-      color: white;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
     }
 
     .primary-btn:hover {
@@ -207,12 +241,16 @@
       background: transparent;
       border: 2px solid var(--primary);
       color: var(--primary);
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
     }
 
     .secondary-btn:hover {
       background: var(--primary);
-      color: white;
+      color: #fff;
     }
+
 
     /* Hero Image */
     .hero-image {
@@ -250,11 +288,9 @@
       position: absolute;
       bottom: 20px;
       right: 20px;
-      background: linear-gradient(
-        135deg,
-        var(--primary),
-        var(--secondary)
-      );
+      background: linear-gradient(135deg,
+          var(--primary),
+          var(--secondary));
       color: white;
       padding: 16px 24px;
       border-radius: 16px;
@@ -501,4 +537,5 @@
   </script>
 
 </body>
+
 </html>
