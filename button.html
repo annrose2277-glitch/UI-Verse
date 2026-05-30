@@ -1797,6 +1797,8 @@
   </div>
 </footer>
 
+<script src="js/features/export-sandbox.js"></script>
+<script src="js/features/component-playground.js"></script>
 <script src="script.js"></script>
 <script>
   /* ---------- Dark Mode ---------- */
@@ -1918,6 +1920,11 @@ themeBtn.addEventListener("click", () => {
       const label = card.querySelector('.card-label')?.textContent.toLowerCase() || '';
       card.style.display = (name.includes(q) || label.includes(q)) ? '' : 'none';
     });
+  }
+
+  /* ---------- Component Playground ---------- */
+  if (window.ComponentPlayground) {
+    ComponentPlayground.init();
   }
 
   /* ---------- Scroll Animations ---------- */
