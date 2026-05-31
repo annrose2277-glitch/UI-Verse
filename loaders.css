@@ -1546,7 +1546,7 @@ body.dark-mode .skeleton-card{
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: var(--radius-sm);
+  border-rùadius: var(--radius-sm);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
