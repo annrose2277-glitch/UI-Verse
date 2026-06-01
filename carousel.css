@@ -1238,3 +1238,24 @@ body.dark-mode .testimonial-card p {
     transform:translateX(-50%);
   }
 }
+
+#backToTop {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999; /* make sure it's above footer */
+  border: none;
+  background: #4CAF50;
+  color: #fff;
+  cursor: pointer;
+  padding: 14px;
+  border-radius: 50%;
+  font-size: 18px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#backToTop:hover {
+  background: #45a049;
+  transform: scale(1.1);
+}
