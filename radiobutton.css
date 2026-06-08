@@ -1204,7 +1204,7 @@ body {
    FOOTER
    ============================================================ */
 .footer {
-  margin-left: var(--sidebar-w);
+  margin-left: 250px;
   background: #111;
   color: #aaa;
   padding: 0;
@@ -1369,5 +1369,20 @@ body {
   }
   .radio-grid {
     padding: 0 20px 40px;
+  }
+}
+/* RESPONSIVE FIXES */
+@media (max-width: 992px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .newsletter-form {
+    flex-direction: column;
+    width: 100%;
+  }
+  .newsletter-form input,
+  .newsletter-form button {
+    width: 100%;
   }
 }
