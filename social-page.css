@@ -596,6 +596,7 @@ label{display:block;margin-bottom:6px;font-weight:600}
 .pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:#f8fafc}
 .pill .icon{margin-right:8px}
 
+
 /* Breadcrumbs */
 .breadcrumbs{display:flex;gap:8px;align-items:center;font-size:13px}
 .breadcrumbs a{color:var(--muted);text-decoration:none}
