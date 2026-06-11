@@ -272,6 +272,62 @@ class UVButton extends HTMLElement {
         super();
         const s = this.attachShadow({ mode: 'open' });
         s.innerHTML = `<button><slot></slot></button>`;
+        if (typeof CSSStyleSheet !== 'undefined') {
+            const sheet = new CSSStyleSheet();
+            sheet.replaceSync(`
+        :host {
+          display: inline-block;
+        }
+        button {
+          background-color: var(--accent, #eb6835);
+          color: var(--bg-secondary, #ffffff);
+          border: 1px solid var(--border-primary, transparent);
+          padding: 8px 16px;
+          border-radius: var(--radius-sm, 8px);
+          font-family: var(--font-body, inherit);
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: var(--transition, 0.25s ease);
+        }
+        button:hover {
+          filter: brightness(1.1);
+        }
+        button:focus-visible {
+          outline: none;
+          box-shadow: 0 0 0 2px var(--accent);
+        }
+      `);
+            s.adoptedStyleSheets = [sheet];
+        }
+        else {
+            const style = document.createElement('style');
+            style.textContent = `
+        :host {
+          display: inline-block;
+        }
+        button {
+          background-color: var(--accent, #eb6835);
+          color: var(--bg-secondary, #ffffff);
+          border: 1px solid var(--border-primary, transparent);
+          padding: 8px 16px;
+          border-radius: var(--radius-sm, 8px);
+          font-family: var(--font-body, inherit);
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: var(--transition, 0.25s ease);
+        }
+        button:hover {
+          filter: brightness(1.1);
+        }
+        button:focus-visible {
+          outline: none;
+          box-shadow: 0 0 0 2px var(--accent);
+        }
+      `;
+            s.appendChild(style);
+        }
     }
 }
 if (typeof customElements !== 'undefined' && !customElements.get('uv-button')) {
@@ -301,6 +357,7 @@ class UVModal extends HTMLElement {
             sheet.replaceSync(`
         :host {
           display: none;
+          font-family: var(--font-body, inherit);
         }
         :host([opened]) {
           display: block;
@@ -318,10 +375,11 @@ class UVModal extends HTMLElement {
           z-index: 1000;
         }
         .modal-content {
-          background: var(--bg-panel, #fff);
+          background: var(--card-bg, var(--bg-secondary, #ffffff));
+          color: var(--text-primary, #111111);
           padding: 24px;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          border-radius: var(--radius-md, 14px);
+          box-shadow: var(--shadow-lg, 0 8px 32px rgba(0, 0, 0, 0.12));
           max-width: 500px;
           width: 100%;
           position: relative;
@@ -334,6 +392,7 @@ class UVModal extends HTMLElement {
             style.textContent = `
         :host {
           display: none;
+          font-family: var(--font-body, inherit);
         }
         :host([opened]) {
           display: block;
@@ -351,10 +410,11 @@ class UVModal extends HTMLElement {
           z-index: 1000;
         }
         .modal-content {
-          background: var(--bg-panel, #fff);
+          background: var(--card-bg, var(--bg-secondary, #ffffff));
+          color: var(--text-primary, #111111);
           padding: 24px;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          border-radius: var(--radius-md, 14px);
+          box-shadow: var(--shadow-lg, 0 8px 32px rgba(0, 0, 0, 0.12));
           max-width: 500px;
           width: 100%;
           position: relative;
@@ -406,12 +466,15 @@ class UVTooltip extends HTMLElement {
             sheet.replaceSync(`
         .tooltip {
           position: absolute;
-          background: #333;
-          color: #fff;
+          background: var(--surface-elevated, #333);
+          color: var(--text-primary, #fff);
           padding: 4px 8px;
-          border-radius: 4px;
+          border-radius: var(--radius-sm, 4px);
           font-size: 12px;
           z-index: 100;
+          border: 1px solid var(--border-primary, #ebebeb);
+          box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.06));
+          font-family: var(--font-body, inherit);
         }
         .tooltip[hidden] {
           display: none;
@@ -424,12 +487,15 @@ class UVTooltip extends HTMLElement {
             style.textContent = `
         .tooltip {
           position: absolute;
-          background: #333;
-          color: #fff;
+          background: var(--surface-elevated, #333);
+          color: var(--text-primary, #fff);
           padding: 4px 8px;
-          border-radius: 4px;
+          border-radius: var(--radius-sm, 4px);
           font-size: 12px;
           z-index: 100;
+          border: 1px solid var(--border-primary, #ebebeb);
+          box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.06));
+          font-family: var(--font-body, inherit);
         }
         .tooltip[hidden] {
           display: none;
@@ -792,10 +858,12 @@ class UVTabs extends HTMLElement {
             sheet.replaceSync(`
         :host {
           display: block;
+          font-family: var(--font-body, inherit);
+          color: var(--text-primary, inherit);
         }
         .tabs-header {
           display: flex;
-          border-bottom: 1px solid var(--border-color, #e2e8f0);
+          border-bottom: 1px solid var(--border-primary, #ebebeb);
           margin-bottom: 12px;
         }
         ::slotted([slot="tab"]) {
@@ -805,10 +873,13 @@ class UVTabs extends HTMLElement {
           border: none;
           border-bottom: 2px solid transparent;
           font-weight: 500;
+          color: var(--text-secondary, #666666);
+          font-family: var(--font-body, inherit);
+          transition: var(--transition, 0.25s ease);
         }
         ::slotted([slot="tab"][active]) {
-          border-bottom-color: var(--accent-color, #3b82f6);
-          color: var(--accent-color, #3b82f6);
+          border-bottom-color: var(--accent, #eb6835);
+          color: var(--accent, #eb6835);
         }
         ::slotted([slot="panel"]) {
           display: none;
@@ -824,10 +895,12 @@ class UVTabs extends HTMLElement {
             style.textContent = `
         :host {
           display: block;
+          font-family: var(--font-body, inherit);
+          color: var(--text-primary, inherit);
         }
         .tabs-header {
           display: flex;
-          border-bottom: 1px solid var(--border-color, #e2e8f0);
+          border-bottom: 1px solid var(--border-primary, #ebebeb);
           margin-bottom: 12px;
         }
         ::slotted([slot="tab"]) {
@@ -837,10 +910,13 @@ class UVTabs extends HTMLElement {
           border: none;
           border-bottom: 2px solid transparent;
           font-weight: 500;
+          color: var(--text-secondary, #666666);
+          font-family: var(--font-body, inherit);
+          transition: var(--transition, 0.25s ease);
         }
         ::slotted([slot="tab"][active]) {
-          border-bottom-color: var(--accent-color, #3b82f6);
-          color: var(--accent-color, #3b82f6);
+          border-bottom-color: var(--accent, #eb6835);
+          color: var(--accent, #eb6835);
         }
         ::slotted([slot="panel"]) {
           display: none;
