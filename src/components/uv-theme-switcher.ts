@@ -25,7 +25,7 @@ export class UVThemeSwitcher extends HTMLElement {
     const currentTheme = this._getCurrentTheme();
 
     this.innerHTML = `
-      <label class="uv-theme-switcher" aria-label="Theme selector">
+      <label class="uv-theme-switcher" aria-label="Theme selector" aria-live="polite">
         <span class="uv-theme-switcher__label">Theme</span>
         <select class="uv-theme-switcher__select">
           ${themeNames.map((themeName) => `
@@ -48,7 +48,19 @@ export class UVThemeSwitcher extends HTMLElement {
 
   _getCurrentTheme(): string {
     if ((globalThis as any).DesignTokens?.getStoredTheme) {
-      return (globalThis as any).DesignTokens.getStoredTheme() || document.documentElement.dataset.theme || 'light';
+      const stored = (globalThis as any).DesignTokens.getStoredTheme();
+      if (stored) return stored;
+    }
+
+    try {
+      const storedTheme = localStorage.getItem('ui-verse-theme') || localStorage.getItem('theme');
+      if (storedTheme) return storedTheme;
+    } catch (e) {}
+
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
     }
 
     return document.documentElement.dataset.theme || 'light';

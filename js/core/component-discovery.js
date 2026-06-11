@@ -419,7 +419,19 @@
     };
   }
 
-  function rankSearchResults(items, query, filters = {}, sort = 'relevance', limit = DEFAULT_LIMIT) {
+  
+function prioritizeTitleMatch(results, query) {
+  return results.sort((a, b) => {
+    const aTitle = (a.name || '').toLowerCase();
+    const bTitle = (b.name || '').toLowerCase();
+    const q = query.toLowerCase();
+    if (aTitle.includes(q) && !bTitle.includes(q)) return -1;
+    if (bTitle.includes(q) && !aTitle.includes(q)) return 1;
+    return 0;
+  });
+}
+    
+function rankSearchResults(items, query, filters = {}, sort = 'relevance', limit = DEFAULT_LIMIT) {
     const filtered = items.filter((item) => matchesFilters(item, filters));
     const scored = filtered.map((item) => {
       const ranking = scoreSearchResult(item, query);
@@ -702,6 +714,25 @@
     return _state.items.find((item) => item.id === id) || null;
   }
 
+  function getCategoryItems(category) {
+    const target = String(category || '').toLowerCase().trim();
+    return _state.items.filter((item) => String(item.category || '').toLowerCase().trim() === target);
+  }
+
+  function getCategories() {
+    const cats = new Map();
+    _state.items.forEach((item) => {
+      const cat = String(item.category || 'Component').toLowerCase().trim();
+      if (!cats.has(cat)) {
+        cats.set(cat, { name: item.category || 'Component', count: 0, items: [] });
+      }
+      const bucket = cats.get(cat);
+      bucket.count++;
+      bucket.items.push(item);
+    });
+    return Array.from(cats.entries()).map(([name, data]) => ({ name, ...data }));
+  }
+
   function getFacets() {
     return {
       ..._state.facets,
@@ -753,6 +784,8 @@
     search,
     getAll,
     getById,
+    getCategoryItems,
+    getCategories,
     getFacets,
     getRecentFilters: getRecentFiltersList,
     exportQuery,

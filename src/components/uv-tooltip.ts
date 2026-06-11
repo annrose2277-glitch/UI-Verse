@@ -5,7 +5,14 @@ export class UVTooltip extends HTMLElement {
     super();
     const s = this.attachShadow({ mode: 'open' });
     s.innerHTML = `
-      <style>
+      <span><slot></slot></span>
+      <div class="tooltip" hidden>Tooltip text</div>
+    `;
+    this._tooltipEl = s.querySelector('.tooltip') as HTMLElement;
+
+    if (typeof CSSStyleSheet !== 'undefined') {
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync(`
         .tooltip {
           position: absolute;
           background: #333;
@@ -18,11 +25,26 @@ export class UVTooltip extends HTMLElement {
         .tooltip[hidden] {
           display: none;
         }
-      </style>
-      <span><slot></slot></span>
-      <div class="tooltip" hidden>Tooltip text</div>
-    `;
-    this._tooltipEl = s.querySelector('.tooltip') as HTMLElement;
+      `);
+      s.adoptedStyleSheets = [sheet];
+    } else {
+      const style = document.createElement('style');
+      style.textContent = `
+        .tooltip {
+          position: absolute;
+          background: #333;
+          color: #fff;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 12px;
+          z-index: 100;
+        }
+        .tooltip[hidden] {
+          display: none;
+        }
+      `;
+      s.appendChild(style);
+    }
   }
 
   show() {
@@ -37,3 +59,4 @@ export class UVTooltip extends HTMLElement {
 if (typeof customElements !== 'undefined' && !customElements.get('uv-tooltip')) {
   customElements.define('uv-tooltip', UVTooltip);
 }
+

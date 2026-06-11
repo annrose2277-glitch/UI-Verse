@@ -284,18 +284,92 @@
         constructor() {
             super();
             this._opened = false;
+            this._handleKeyDown = (event) => {
+                if (event.key === 'Escape') {
+                    this.close();
+                    this.dispatchEvent(new CustomEvent('close'));
+                }
+            };
             const s = this.attachShadow({ mode: 'open' });
             s.innerHTML = `
-      <style>
+      <div class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-content" tabindex="-1">
+          <slot></slot>
+        </div>
+      </div>
+    `;
+            if (typeof CSSStyleSheet !== 'undefined') {
+                const sheet = new CSSStyleSheet();
+                sheet.replaceSync(`
         :host {
           display: none;
         }
         :host([opened]) {
           display: block;
         }
-      </style>
-      <div><slot></slot></div>
-    `;
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        }
+        .modal-content {
+          background: var(--bg-panel, #fff);
+          padding: 24px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          max-width: 500px;
+          width: 100%;
+          position: relative;
+        }
+      `);
+                s.adoptedStyleSheets = [sheet];
+            }
+            else {
+                const style = document.createElement('style');
+                style.textContent = `
+        :host {
+          display: none;
+        }
+        :host([opened]) {
+          display: block;
+        }
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        }
+        .modal-content {
+          background: var(--bg-panel, #fff);
+          padding: 24px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          max-width: 500px;
+          width: 100%;
+          position: relative;
+        }
+      `;
+                s.appendChild(style);
+            }
+        }
+        connectedCallback() {
+            this.addEventListener('keydown', this._handleKeyDown);
+        }
+        disconnectedCallback() {
+            this.removeEventListener('keydown', this._handleKeyDown);
         }
         get opened() {
             return this._opened;
@@ -325,7 +399,13 @@
             super();
             const s = this.attachShadow({ mode: 'open' });
             s.innerHTML = `
-      <style>
+      <span><slot></slot></span>
+      <div class="tooltip" hidden>Tooltip text</div>
+    `;
+            this._tooltipEl = s.querySelector('.tooltip');
+            if (typeof CSSStyleSheet !== 'undefined') {
+                const sheet = new CSSStyleSheet();
+                sheet.replaceSync(`
         .tooltip {
           position: absolute;
           background: #333;
@@ -338,11 +418,27 @@
         .tooltip[hidden] {
           display: none;
         }
-      </style>
-      <span><slot></slot></span>
-      <div class="tooltip" hidden>Tooltip text</div>
-    `;
-            this._tooltipEl = s.querySelector('.tooltip');
+      `);
+                s.adoptedStyleSheets = [sheet];
+            }
+            else {
+                const style = document.createElement('style');
+                style.textContent = `
+        .tooltip {
+          position: absolute;
+          background: #333;
+          color: #fff;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 12px;
+          z-index: 100;
+        }
+        .tooltip[hidden] {
+          display: none;
+        }
+      `;
+                s.appendChild(style);
+            }
         }
         show() {
             this._tooltipEl.removeAttribute('hidden');
@@ -362,7 +458,17 @@
             this._onI18nChange = this._onI18nChange.bind(this);
             const shadow = this.attachShadow({ mode: 'open' });
             shadow.innerHTML = `
-      <style>
+      <label>
+        <span data-role="label">Language</span>
+        <select aria-label="Language selector">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+        </select>
+      </label>
+    `;
+            if (typeof CSSStyleSheet !== 'undefined') {
+                const sheet = new CSSStyleSheet();
+                sheet.replaceSync(`
         :host {
           display: inline-flex;
           align-items: center;
@@ -385,15 +491,37 @@
           background: transparent;
           color: inherit;
         }
-      </style>
-      <label>
-        <span data-role="label">Language</span>
-        <select aria-label="Language selector">
-          <option value="en">English</option>
-          <option value="es">Español</option>
-        </select>
-      </label>
-    `;
+      `);
+                shadow.adoptedStyleSheets = [sheet];
+            }
+            else {
+                const style = document.createElement('style');
+                style.textContent = `
+        :host {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+          font: inherit;
+        }
+
+        label {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: inherit;
+        }
+
+        select {
+          font: inherit;
+          border: 1px solid currentColor;
+          border-radius: 999px;
+          padding: 0.35rem 0.75rem;
+          background: transparent;
+          color: inherit;
+        }
+      `;
+                shadow.appendChild(style);
+            }
         }
         connectedCallback() {
             var _a, _b;
@@ -477,7 +605,7 @@
             const themeNames = this._getThemeNames();
             const currentTheme = this._getCurrentTheme();
             this.innerHTML = `
-      <label class="uv-theme-switcher" aria-label="Theme selector">
+      <label class="uv-theme-switcher" aria-label="Theme selector" aria-live="polite">
         <span class="uv-theme-switcher__label">Theme</span>
         <select class="uv-theme-switcher__select">
           ${themeNames.map((themeName) => `
@@ -498,7 +626,20 @@
         _getCurrentTheme() {
             var _a;
             if ((_a = globalThis.DesignTokens) === null || _a === void 0 ? void 0 : _a.getStoredTheme) {
-                return globalThis.DesignTokens.getStoredTheme() || document.documentElement.dataset.theme || 'light';
+                const stored = globalThis.DesignTokens.getStoredTheme();
+                if (stored)
+                    return stored;
+            }
+            try {
+                const storedTheme = localStorage.getItem('ui-verse-theme') || localStorage.getItem('theme');
+                if (storedTheme)
+                    return storedTheme;
+            }
+            catch (e) { }
+            if (typeof window !== 'undefined' && window.matchMedia) {
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    return 'dark';
+                }
             }
             return document.documentElement.dataset.theme || 'light';
         }
@@ -544,7 +685,12 @@
             super();
             const shadow = this.attachShadow({ mode: 'open' });
             shadow.innerHTML = `
-      <style>
+      <slot name="trigger"></slot>
+      <slot name="content"></slot>
+    `;
+            if (typeof CSSStyleSheet !== 'undefined') {
+                const sheet = new CSSStyleSheet();
+                sheet.replaceSync(`
         :host {
           display: inline-block;
           position: relative;
@@ -564,10 +710,34 @@
         :host([open]) ::slotted([slot="content"]) {
           display: block;
         }
-      </style>
-      <slot name="trigger"></slot>
-      <slot name="content"></slot>
-    `;
+      `);
+                shadow.adoptedStyleSheets = [sheet];
+            }
+            else {
+                const style = document.createElement('style');
+                style.textContent = `
+        :host {
+          display: inline-block;
+          position: relative;
+        }
+        ::slotted([slot="trigger"]) {
+          cursor: pointer;
+        }
+        ::slotted([slot="content"]) {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          z-index: 10;
+          min-width: 160px;
+          margin-top: 4px;
+        }
+        :host([open]) ::slotted([slot="content"]) {
+          display: block;
+        }
+      `;
+                shadow.appendChild(style);
+            }
         }
         static get observedAttributes() {
             return ['open'];
@@ -612,7 +782,16 @@
             super();
             const shadow = this.attachShadow({ mode: 'open' });
             shadow.innerHTML = `
-      <style>
+      <div class="tabs-header">
+        <slot name="tab"></slot>
+      </div>
+      <div class="tabs-content">
+        <slot name="panel"></slot>
+      </div>
+    `;
+            if (typeof CSSStyleSheet !== 'undefined') {
+                const sheet = new CSSStyleSheet();
+                sheet.replaceSync(`
         :host {
           display: block;
         }
@@ -639,14 +818,41 @@
         ::slotted([slot="panel"][active]) {
           display: block;
         }
-      </style>
-      <div class="tabs-header">
-        <slot name="tab"></slot>
-      </div>
-      <div class="tabs-content">
-        <slot name="panel"></slot>
-      </div>
-    `;
+      `);
+                shadow.adoptedStyleSheets = [sheet];
+            }
+            else {
+                const style = document.createElement('style');
+                style.textContent = `
+        :host {
+          display: block;
+        }
+        .tabs-header {
+          display: flex;
+          border-bottom: 1px solid var(--border-color, #e2e8f0);
+          margin-bottom: 12px;
+        }
+        ::slotted([slot="tab"]) {
+          padding: 8px 16px;
+          cursor: pointer;
+          background: none;
+          border: none;
+          border-bottom: 2px solid transparent;
+          font-weight: 500;
+        }
+        ::slotted([slot="tab"][active]) {
+          border-bottom-color: var(--accent-color, #3b82f6);
+          color: var(--accent-color, #3b82f6);
+        }
+        ::slotted([slot="panel"]) {
+          display: none;
+        }
+        ::slotted([slot="panel"][active]) {
+          display: block;
+        }
+      `;
+                shadow.appendChild(style);
+            }
         }
         connectedCallback() {
             var _a;

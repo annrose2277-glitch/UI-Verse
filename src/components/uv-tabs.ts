@@ -3,7 +3,17 @@ export class UVTabs extends HTMLElement {
     super();
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.innerHTML = `
-      <style>
+      <div class="tabs-header">
+        <slot name="tab"></slot>
+      </div>
+      <div class="tabs-content">
+        <slot name="panel"></slot>
+      </div>
+    `;
+
+    if (typeof CSSStyleSheet !== 'undefined') {
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync(`
         :host {
           display: block;
         }
@@ -30,14 +40,40 @@ export class UVTabs extends HTMLElement {
         ::slotted([slot="panel"][active]) {
           display: block;
         }
-      </style>
-      <div class="tabs-header">
-        <slot name="tab"></slot>
-      </div>
-      <div class="tabs-content">
-        <slot name="panel"></slot>
-      </div>
-    `;
+      `);
+      shadow.adoptedStyleSheets = [sheet];
+    } else {
+      const style = document.createElement('style');
+      style.textContent = `
+        :host {
+          display: block;
+        }
+        .tabs-header {
+          display: flex;
+          border-bottom: 1px solid var(--border-color, #e2e8f0);
+          margin-bottom: 12px;
+        }
+        ::slotted([slot="tab"]) {
+          padding: 8px 16px;
+          cursor: pointer;
+          background: none;
+          border: none;
+          border-bottom: 2px solid transparent;
+          font-weight: 500;
+        }
+        ::slotted([slot="tab"][active]) {
+          border-bottom-color: var(--accent-color, #3b82f6);
+          color: var(--accent-color, #3b82f6);
+        }
+        ::slotted([slot="panel"]) {
+          display: none;
+        }
+        ::slotted([slot="panel"][active]) {
+          display: block;
+        }
+      `;
+      shadow.appendChild(style);
+    }
   }
 
   connectedCallback() {

@@ -6,7 +6,18 @@ export class UVLanguageSwitcher extends HTMLElement {
 
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.innerHTML = `
-      <style>
+      <label>
+        <span data-role="label">Language</span>
+        <select aria-label="Language selector">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+        </select>
+      </label>
+    `;
+
+    if (typeof CSSStyleSheet !== 'undefined') {
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync(`
         :host {
           display: inline-flex;
           align-items: center;
@@ -29,15 +40,36 @@ export class UVLanguageSwitcher extends HTMLElement {
           background: transparent;
           color: inherit;
         }
-      </style>
-      <label>
-        <span data-role="label">Language</span>
-        <select aria-label="Language selector">
-          <option value="en">English</option>
-          <option value="es">Español</option>
-        </select>
-      </label>
-    `;
+      `);
+      shadow.adoptedStyleSheets = [sheet];
+    } else {
+      const style = document.createElement('style');
+      style.textContent = `
+        :host {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+          font: inherit;
+        }
+
+        label {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: inherit;
+        }
+
+        select {
+          font: inherit;
+          border: 1px solid currentColor;
+          border-radius: 999px;
+          padding: 0.35rem 0.75rem;
+          background: transparent;
+          color: inherit;
+        }
+      `;
+      shadow.appendChild(style);
+    }
   }
 
   connectedCallback() {

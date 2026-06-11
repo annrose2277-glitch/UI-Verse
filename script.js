@@ -168,6 +168,7 @@ function writeToClipboard(text, toastMsg, btn, doneHTML, origHTML, resetMs = 150
     })
     .catch(() => showToast("Failed to copy ❌"));
 }
+// Clipboard utilities extracted successfully.
 
 /**
  * Copy the full content of a code element (textarea, input, or any element).
@@ -528,6 +529,17 @@ function initSidebarLinkClose() {
  * On wide viewports collapses with "sidebar-hidden" and persists the state.
  */
 function toggleSidebar() {
+
+    // Keyboard navigation focus loop inside sidebar drawer
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) {
+        sidebar.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                toggleSidebar();
+            }
+        });
+    }
+    
   // Support the id-based sidebar pattern used in newer markup
   const sidebarById = document.getElementById("sidebar");
   if (sidebarById) {
