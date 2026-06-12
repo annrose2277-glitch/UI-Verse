@@ -562,10 +562,6 @@ We love our contributors! If you'd like to help, please check out our [`CONTRIBU
 
 >Thank you once again to all our contributors who has contributed to **UI-Verse!** Your efforts are truly appreciated. 💖👏
 
-<!-- Contributors badge (auto-updating) -->
-
-[![Contributors](https://img.shields.io/github/contributors/Tushar-sonawane06/UI-Verse?style=for-the-badge)](https://github.com/Tushar-sonawane06/UI-Verse/graphs/contributors?from=3%2F7%2F2026)
-
 <!-- Contributors avatars (auto-updating) -->
 <p align="left">
   <a href="https://github.com/Tushar-sonawane06/UI-Verse/graphs/contributors">
