@@ -16,6 +16,7 @@ export class UVModal extends HTMLElement {
       sheet.replaceSync(`
         :host {
           display: none;
+          font-family: var(--font-body, inherit);
         }
         :host([opened]) {
           display: block;
@@ -33,10 +34,11 @@ export class UVModal extends HTMLElement {
           z-index: 1000;
         }
         .modal-content {
-          background: var(--bg-panel, #fff);
+          background: var(--card-bg, var(--bg-secondary, #ffffff));
+          color: var(--text-primary, #111111);
           padding: 24px;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          border-radius: var(--radius-md, 14px);
+          box-shadow: var(--shadow-lg, 0 8px 32px rgba(0, 0, 0, 0.12));
           max-width: 500px;
           width: 100%;
           position: relative;
@@ -48,6 +50,7 @@ export class UVModal extends HTMLElement {
       style.textContent = `
         :host {
           display: none;
+          font-family: var(--font-body, inherit);
         }
         :host([opened]) {
           display: block;
@@ -65,10 +68,11 @@ export class UVModal extends HTMLElement {
           z-index: 1000;
         }
         .modal-content {
-          background: var(--bg-panel, #fff);
+          background: var(--card-bg, var(--bg-secondary, #ffffff));
+          color: var(--text-primary, #111111);
           padding: 24px;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          border-radius: var(--radius-md, 14px);
+          box-shadow: var(--shadow-lg, 0 8px 32px rgba(0, 0, 0, 0.12));
           max-width: 500px;
           width: 100%;
           position: relative;

@@ -15,10 +15,12 @@ class UVTabs extends HTMLElement {
             sheet.replaceSync(`
         :host {
           display: block;
+          font-family: var(--font-body, inherit);
+          color: var(--text-primary, inherit);
         }
         .tabs-header {
           display: flex;
-          border-bottom: 1px solid var(--border-color, #e2e8f0);
+          border-bottom: 1px solid var(--border-primary, #ebebeb);
           margin-bottom: 12px;
         }
         ::slotted([slot="tab"]) {
@@ -28,10 +30,13 @@ class UVTabs extends HTMLElement {
           border: none;
           border-bottom: 2px solid transparent;
           font-weight: 500;
+          color: var(--text-secondary, #666666);
+          font-family: var(--font-body, inherit);
+          transition: var(--transition, 0.25s ease);
         }
         ::slotted([slot="tab"][active]) {
-          border-bottom-color: var(--accent-color, #3b82f6);
-          color: var(--accent-color, #3b82f6);
+          border-bottom-color: var(--accent, #eb6835);
+          color: var(--accent, #eb6835);
         }
         ::slotted([slot="panel"]) {
           display: none;
@@ -47,10 +52,12 @@ class UVTabs extends HTMLElement {
             style.textContent = `
         :host {
           display: block;
+          font-family: var(--font-body, inherit);
+          color: var(--text-primary, inherit);
         }
         .tabs-header {
           display: flex;
-          border-bottom: 1px solid var(--border-color, #e2e8f0);
+          border-bottom: 1px solid var(--border-primary, #ebebeb);
           margin-bottom: 12px;
         }
         ::slotted([slot="tab"]) {
@@ -60,10 +67,13 @@ class UVTabs extends HTMLElement {
           border: none;
           border-bottom: 2px solid transparent;
           font-weight: 500;
+          color: var(--text-secondary, #666666);
+          font-family: var(--font-body, inherit);
+          transition: var(--transition, 0.25s ease);
         }
         ::slotted([slot="tab"][active]) {
-          border-bottom-color: var(--accent-color, #3b82f6);
-          color: var(--accent-color, #3b82f6);
+          border-bottom-color: var(--accent, #eb6835);
+          color: var(--accent, #eb6835);
         }
         ::slotted([slot="panel"]) {
           display: none;

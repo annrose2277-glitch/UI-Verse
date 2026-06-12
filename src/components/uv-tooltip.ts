@@ -15,12 +15,15 @@ export class UVTooltip extends HTMLElement {
       sheet.replaceSync(`
         .tooltip {
           position: absolute;
-          background: #333;
-          color: #fff;
+          background: var(--surface-elevated, #333);
+          color: var(--text-primary, #fff);
           padding: 4px 8px;
-          border-radius: 4px;
+          border-radius: var(--radius-sm, 4px);
           font-size: 12px;
           z-index: 100;
+          border: 1px solid var(--border-primary, #ebebeb);
+          box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.06));
+          font-family: var(--font-body, inherit);
         }
         .tooltip[hidden] {
           display: none;
@@ -32,12 +35,15 @@ export class UVTooltip extends HTMLElement {
       style.textContent = `
         .tooltip {
           position: absolute;
-          background: #333;
-          color: #fff;
+          background: var(--surface-elevated, #333);
+          color: var(--text-primary, #fff);
           padding: 4px 8px;
-          border-radius: 4px;
+          border-radius: var(--radius-sm, 4px);
           font-size: 12px;
           z-index: 100;
+          border: 1px solid var(--border-primary, #ebebeb);
+          box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.06));
+          font-family: var(--font-body, inherit);
         }
         .tooltip[hidden] {
           display: none;
